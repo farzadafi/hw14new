@@ -25,14 +25,14 @@ public class User extends BaseEntity<Integer> {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "following",fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "following",fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<User> followers = new HashSet<>();
 
     @JoinTable(name = "followers",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "follower_id")})
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<User> following = new HashSet<>();
 
