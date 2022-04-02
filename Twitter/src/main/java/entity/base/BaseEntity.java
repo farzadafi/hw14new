@@ -16,7 +16,7 @@ import java.util.Objects;
 public class BaseEntity<ID extends Serializable> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ID id;
 
     @Override
