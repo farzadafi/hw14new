@@ -18,13 +18,13 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
         String fullName = utility.setFullName();
         String userName = utility.setUserName();
         String password = utility.setPassword();
-        User user = new User(fullName,userName,password,null,null);
-        User userResult = super.add(user);
-        if(userResult != null)
-            System.out.println(fullName + " successful added!");
+        User newUser = new User(fullName,userName,password,null,null);
+        User user1 = super.add(newUser);
+        if(user1 == null )
+            System.out.println("SomeThing is wrong!");
         else
-            System.out.println("Something is wrong!");
-        return userResult;
+            System.out.println(newUser.getFullName() + " successful added!");
+        return newUser;
     }
 
     @Override
