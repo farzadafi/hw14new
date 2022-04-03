@@ -92,4 +92,10 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
         Comment comment = Comment.builder().user(user).build();
         commentServiceImpel.update(comment);
     }
+
+    @Override
+    public void deleteComment(User user){
+        Comment comment = Comment.builder().user(user).build();
+        commentServiceImpel.delete(comment);
+    }
 }
