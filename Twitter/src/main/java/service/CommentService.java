@@ -12,4 +12,5 @@ public interface CommentService extends BaseService<Comment,Integer> {
     List<Comment> findCommentByTwitId(Twit twit);
     List<Comment> findWithParentId(Integer id);
     void replyComment(User user);
+    Comment findById(Integer id);
 }
