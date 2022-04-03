@@ -28,6 +28,21 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     }
 
     @Override
+    public void update(User user) {
+        String fullName = utility.setFullName();
+        String password = utility.setPassword();
+        user.setFullName(fullName);
+        user.setPassword(password);
+        super.update(user);
+        System.out.println(fullName + " successful updated!");
+    }
+
+    @Override
+    public void delete(User user) {
+        super.delete(user);
+    }
+
+    @Override
     public User findByUserName(String username) {
         try (var session = sessionFactory.getCurrentSession()) {
             session.getTransaction().begin();
