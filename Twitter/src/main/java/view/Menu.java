@@ -1,17 +1,21 @@
 package view;
 
 import entity.User;
-import service.*;
+import service.impel.CommentServiceImpel;
+import service.impel.FollowerServiceImpel;
+import service.impel.TwitServiceImpel;
+import service.impel.UserServiceImpel;
+import utility.Utility;
 
 import java.util.Scanner;
 
 public class Menu {
     private final Utility utility = new Utility();
-    private final UserService userService = new UserService();
+    private final UserServiceImpel userServiceImpel = new UserServiceImpel();
     private final Scanner input = new Scanner(System.in);
-    private final TwitService twitService = new TwitService();
-    private final CommentService commentService = new CommentService();
-    private final FollowersService followersService = new FollowersService();
+    private final TwitServiceImpel twitServiceImpel = new TwitServiceImpel();
+    private final CommentServiceImpel commentServiceImpel = new CommentServiceImpel();
+    private final FollowerServiceImpel followerServiceImpel = new FollowerServiceImpel();
 
     public int mainMenu() {
         System.out.println("\n**********WELCOME**********");
@@ -36,7 +40,7 @@ public class Menu {
     }
 
     public void registerMenu(){
-        userService.add(null);
+        userServiceImpel.add(null);
     }
 
     public void enterMenu(){
@@ -44,7 +48,7 @@ public class Menu {
         String userName = input.nextLine();
         System.out.print("Please enter your password:");
         String password = input.nextLine();
-        User user = userService.findByUserName(userName);
+        User user = userServiceImpel.findByUserName(userName);
         if(user == null)
             System.out.println("You enter wrong user name or password!");
         else if(password.equals(user.getPassword()))
@@ -83,63 +87,64 @@ public class Menu {
                     break;
 
                 case 2:
-                    userService.update(user);
+                    userServiceImpel.update(user);
                     break;
 
                 case 3:
-                    userService.delete(user);
+                    userServiceImpel.delete(user);
                     finalWhile = false;
                     break;
 
                 case 4:
-                    twitService.add(user);
+                    userServiceImpel.addTwit(user);
                     break;
 
                 case 5:
-                    twitService.delete(user);
+                    userServiceImpel.deleteTwit(user);
                     break;
 
                 case 6:
-                    twitService.update(user);
+                    userServiceImpel.updateTwit(user);
                     break;
 
                 case 7:
-                    twitService.showMyTwit(user);
+                    userServiceImpel.showMyTwit(user);
                     break;
 
                 case 8:
-                    twitService.showAllTwit(user,8);
+                    userServiceImpel.showAllTwit(user,8);
                     break;
 
                 case 9:
-                    twitService.showAllTwit(user,9);
+                    userServiceImpel.showAllTwit(user,9);
+                    break;
 
                 case 10:
-                    commentService.update(user);
+                    userServiceImpel.updateComment(user);
                     break;
 
                 case 11:
-                    commentService.delete(user);
+                    userServiceImpel.deleteComment(user);
                     break;
 
                 case 12:
-                    commentService.showComment(user.getId());
+                    userServiceImpel.showComment(user);
                     break;
 
                 case 13:
-                    userService.CheckUserName();
+                    userServiceImpel.checkUsername();
                     break;
 
                 case 14:
-                    userService.setFollowers(user);
+                    userServiceImpel.setFollowers(user);
                     break;
 
                 case 15:
-                    userService.unSetFollowers(user);
+                    userServiceImpel.unSetFollowers(user);
                     break;
 
                 case 16:
-                    followersService.showFollowers(user);
+                    userServiceImpel.showFollowers(user);
                     break;
 
 
