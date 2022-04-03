@@ -19,6 +19,7 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     private static final TwitServiceImpel twitServiceImpel = new TwitServiceImpel();
     private final CommentServiceImpel commentServiceImpel = new CommentServiceImpel();
     private final Scanner input = new Scanner(System.in);
+    private final FollowerServiceImpel followerServiceImpel = new FollowerServiceImpel();
 
     @Override
     public User add(User userNull) {
@@ -128,5 +129,17 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
             return;
         user.addFollower(findUser);
         super.update(user);
+    }
+
+    @Override
+    public void unSetFollowers(User user){
+        User findUser = checkUsername();
+        if(findUser == null )
+            return;
+        user.removeFollower(findUser);
+        if(followerServiceImpel.unfollow(user,findUser) != 0)
+            System.out.println("unfollow successful!");
+        else
+            System.out.println("Something is wrong!");
     }
 }
