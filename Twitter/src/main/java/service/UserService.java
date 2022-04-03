@@ -8,4 +8,5 @@ public interface UserService extends BaseService<User,Integer> {
     void addTwit(User user);
     void deleteTwit(User user);
     void updateTwit(User user);
+    void showMyTwit(User user);
 }

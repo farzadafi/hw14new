@@ -74,4 +74,9 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
         Twit twit = Twit.builder().user(user).build();
         twitServiceImpel.update(twit);
     }
+
+    @Override
+    public void showMyTwit(User user) {
+        twitServiceImpel.showMyTwit(user);
+    }
 }
