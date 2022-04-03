@@ -16,4 +16,5 @@ public interface UserService extends BaseService<User,Integer> {
     User checkUsername();
     void setFollowers(User user);
     void unSetFollowers(User user);
+    void showFollowers(User user);
 }

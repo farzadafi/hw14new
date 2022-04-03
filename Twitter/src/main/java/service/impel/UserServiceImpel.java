@@ -142,4 +142,9 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
         else
             System.out.println("Something is wrong!");
     }
+
+    @Override
+    public void showFollowers(User user){
+        followerServiceImpel.showFollowers(user);
+    }
 }
