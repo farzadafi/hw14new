@@ -12,4 +12,6 @@ public interface UserService extends BaseService<User,Integer> {
     void showAllTwit(User user,Integer number);
     void updateComment(User user);
     void deleteComment(User user);
+    void showComment(User user);
+    void checkUsername();
 }

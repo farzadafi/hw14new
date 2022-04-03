@@ -9,6 +9,8 @@ import repository.impel.UserRepositoryImpel;
 import service.UserService;
 import utility.Utility;
 
+import java.util.Scanner;
+
 public class UserServiceImpel extends GenericServiceImpel<User,Integer> implements UserService {
 
     private final SessionFactory sessionFactory = SessionFactorySingleton.getInstance();
@@ -16,6 +18,7 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     private static final Utility utility = new Utility();
     private static final TwitServiceImpel twitServiceImpel = new TwitServiceImpel();
     private final CommentServiceImpel commentServiceImpel = new CommentServiceImpel();
+    private final Scanner input = new Scanner(System.in);
 
     @Override
     public User add(User userNull) {
@@ -97,5 +100,22 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     public void deleteComment(User user){
         Comment comment = Comment.builder().user(user).build();
         commentServiceImpel.delete(comment);
+    }
+
+    @Override
+    public void showComment(User user){
+        commentServiceImpel.showComment(user.getId());
+    }
+
+    @Override
+    public void checkUsername(){
+            System.out.print("Enter User Name:");
+            String userName = input.nextLine();
+            User user = findByUserName(userName);
+            if(user == null ) {
+                System.out.println("We dont have this user!");
+            }
+            else
+                System.out.println(userName + " is found with name : " + user.getFullName());
     }
 }
