@@ -155,4 +155,17 @@ public class CommentServiceImpel extends GenericServiceImpel<Comment,Integer> im
             }
         }
     }
+
+    @Override
+    public void delete(Comment comment) {
+        if(showComment(comment.getUser().getId()) == 0)
+            return;
+        System.out.print("Enter id for delete:");
+        int id = utility.giveIntegerInput();
+        Comment comment1 = this.findById(id);
+        if(comment1 == null)
+            System.out.println("You enter a wrong id!");
+        else
+            super.delete(comment1);
+    }
 }
