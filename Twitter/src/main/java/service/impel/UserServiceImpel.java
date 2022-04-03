@@ -108,14 +108,25 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     }
 
     @Override
-    public void checkUsername(){
+    public User checkUsername(){
             System.out.print("Enter User Name:");
             String userName = input.nextLine();
             User user = findByUserName(userName);
             if(user == null ) {
                 System.out.println("We dont have this user!");
+                return null;
             }
             else
                 System.out.println(userName + " is found with name : " + user.getFullName());
+            return user;
+    }
+
+    @Override
+    public void setFollowers(User user){
+        User findUser = checkUsername();
+        if(findUser == null )
+            return;
+        user.addFollower(findUser);
+        super.update(user);
     }
 }

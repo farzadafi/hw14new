@@ -13,5 +13,6 @@ public interface UserService extends BaseService<User,Integer> {
     void updateComment(User user);
     void deleteComment(User user);
     void showComment(User user);
-    void checkUsername();
+    User checkUsername();
+    void setFollowers(User user);
 }
