@@ -29,4 +29,11 @@ public class TwitRepositoryImpel extends GenericRepositoryImpel<Twit,Integer> im
         return query.getSingleResult();
     }
 
+    @Override
+    public List<Twit> findAllTwit() {
+        var session = sessionFactory.getCurrentSession();
+        var query = session.createQuery("FROM Twit ",Twit.class);
+        return query.list();
+    }
+
 }
