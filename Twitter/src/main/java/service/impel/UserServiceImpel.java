@@ -13,7 +13,7 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     private final SessionFactory sessionFactory = SessionFactorySingleton.getInstance();
     private final UserRepositoryImpel userRepositoryImpel = new UserRepositoryImpel();
     private static final Utility utility = new Utility();
-    private final TwitServiceImpel twitServiceImpel = new TwitServiceImpel();
+    private static final TwitServiceImpel twitServiceImpel = new TwitServiceImpel();
 
     @Override
     public User add(User userNull) {
@@ -60,5 +60,10 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     public void addTwit(User user){
         Twit twit = Twit.builder().user(user).build();
         twitServiceImpel.add(twit);
+    }
+
+    public void deleteTwit(User user){
+        Twit twit = Twit.builder().user(user).build();
+        twitServiceImpel.delete(twit);
     }
 }
