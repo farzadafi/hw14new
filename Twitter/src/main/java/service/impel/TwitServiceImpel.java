@@ -45,13 +45,30 @@ public class TwitServiceImpel extends GenericServiceImpel<Twit,Integer> implemen
         if(twit1 == null )
             System.out.println("You enter a wrong id");
         else{
-            //Twit twit1 = Twit.builder().id(id).user(user).twit(twit.getTwit()).build();
-            //genericService.delete(twit1);
             super.delete(twit1);
             System.out.println("This twit successful deleted!");
         }
     }
 
+    @Override
+    public void update(Twit twit) {
+        if(showMyTwit(twit.getUser()) == 0)
+            return;
+        System.out.print("Enter Id for edit twit:");
+        Integer id = utility.giveIntegerInput();
+        Twit twit1 = findTwitByTwoId(twit.getUser(),id);
+        if(twit1 == null)
+            System.out.println("You enter a wrong id!");
+        else{
+            System.out.print("Enter your new twit:");
+            String newTwit = input.nextLine();
+            twit1.setTwit(newTwit);
+            super.update(twit1);
+            System.out.println("This twit successful updated!");
+        }
+    }
+
+    @Override
     public Integer showMyTwit(User user){
         System.out.println("You have This Twit:");
         List<Twit> twitList = findTwitById(user);
@@ -68,6 +85,7 @@ public class TwitServiceImpel extends GenericServiceImpel<Twit,Integer> implemen
         return 1;
     }
 
+    @Override
     public List<Twit> findTwitById(User user) {
         try (var session = sessionFactory.getCurrentSession()) {
             session.getTransaction().begin();
@@ -80,6 +98,7 @@ public class TwitServiceImpel extends GenericServiceImpel<Twit,Integer> implemen
         }
     }
 
+    @Override
     public Twit findTwitByTwoId(User user,Integer id) {
         try (var session = sessionFactory.getCurrentSession()) {
             session.getTransaction().begin();
