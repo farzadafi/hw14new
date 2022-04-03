@@ -3,7 +3,7 @@ package service.impel;
 import connection.SessionFactorySingleton;
 import org.hibernate.SessionFactory;
 import repository.impel.GenericRepositoryImpel;
-import service.baseService.BaseService;
+import service.base.BaseService;
 
 import java.util.List;
 

@@ -1,7 +1,8 @@
 package service;
 
+
 import entity.Twit;
-import service.baseService.BaseService;
+import service.base.BaseService;
 
 public interface TwitService extends BaseService<Twit,Integer> {
 }
