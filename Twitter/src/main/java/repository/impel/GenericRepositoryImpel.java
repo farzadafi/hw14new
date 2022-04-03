@@ -14,7 +14,7 @@ public class GenericRepositoryImpel<K,ID> implements GenericRepository<K,ID> {
         this.clazz = clazz;
     }
 
-    public GenericRepositoryImpel(){
+    public GenericRepositoryImpel() {
 
     }
 
