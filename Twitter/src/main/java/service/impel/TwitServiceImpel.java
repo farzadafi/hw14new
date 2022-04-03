@@ -1,6 +1,7 @@
 package service.impel;
 
 import connection.SessionFactorySingleton;
+import entity.Comment;
 import entity.Twit;
 import entity.User;
 import org.hibernate.SessionFactory;
@@ -17,6 +18,8 @@ public class TwitServiceImpel extends GenericServiceImpel<Twit,Integer> implemen
     private final TwitRepositoryImpel twitRepositoryImpel = new TwitRepositoryImpel();
     private final SessionFactory sessionFactory = SessionFactorySingleton.getInstance();
     private final Utility utility = new Utility();
+    private final UserServiceImpel userServiceImpel = new UserServiceImpel();
+    private final CommentServiceImpel commentServiceImpel = new CommentServiceImpel();
 
     @Override
     public Twit add(Twit twit) {
@@ -104,6 +107,112 @@ public class TwitServiceImpel extends GenericServiceImpel<Twit,Integer> implemen
             session.getTransaction().begin();
             try {
                 return twitRepositoryImpel.findTwitByTwoId(user.getId(),id);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public void showAllTwit(User user,Integer number){
+        List<Twit> twitList = findTwit(number);
+        if(twitList == null )
+            System.out.println("No Twit found!");
+        else{
+            System.out.println("like(1),dislike(2),comment(3),showComment(4),replyComment(5),next(6),exit(7)");
+            Integer command;
+            for (Twit t:twitList
+            ) {
+                showTwit(t);
+                System.out.print("Enter a number:");
+                command = utility.giveIntegerInput();
+                if(command > 6 || command < 1 )
+                    return;
+                else{
+                    switch(command){
+                        case 1:
+                            likeTwit(t);
+                            break;
+
+                        case 2:
+                            dislikeTwit(t);
+                            break;
+
+                        case 3:
+                            Comment comment = Comment.builder().user(t.getUser()).twit(t).build();
+                            commentServiceImpel.add(comment);
+                            break;
+
+                        case 4:
+                            commentServiceImpel.showComment(t);
+                            break;
+
+                        case 5:
+                            commentServiceImpel.replyComment(user);
+                            break;
+
+                        case 6:
+
+                            break;
+
+                        case 7:
+                            return;
+
+                        default:
+                            System.out.println("You enter a wrong number!");
+                    }
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public List<Twit> findTwit(Integer number){
+        if(number == 8) {
+            return findAllTwit();
+        }
+        else{
+            System.out.print("Enter user name:");
+            String userName = input.nextLine();
+            User user = userServiceImpel.findByUserName(userName);
+            return findTwitById(user);
+        }
+    }
+
+    @Override
+    public void showTwit(Twit twit){
+        System.out.println(" id : " + twit.getId() +
+                " twit : " + twit.getTwit() +
+                " likeNumber: " + twit.getLikeNumber() +
+                " dislikeNumber :" + twit.getDislikeNumber() +
+                " fullName: " + twit.getUser().getFullName() +
+                " userName: " + twit.getUser().getUserName());
+    }
+
+    public void likeTwit(Twit twit){
+        if(twit.getLikeNumber() == null )
+            twit.setLikeNumber(1);
+        else
+            twit.setLikeNumber(twit.getLikeNumber()+1);
+        super.update(twit);
+    }
+
+    public void dislikeTwit(Twit twit){
+        if(twit.getDislikeNumber() == null )
+            twit.setDislikeNumber(1);
+        else
+            twit.setDislikeNumber(twit.getDislikeNumber()+1);
+        super.update(twit);
+    }
+
+    @Override
+    public List<Twit> findAllTwit() {
+        try (var session = sessionFactory.getCurrentSession()) {
+            session.getTransaction().begin();
+            try {
+                return twitRepositoryImpel.findAllTwit();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return null;
