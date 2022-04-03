@@ -1,6 +1,7 @@
 package service.impel;
 
 import connection.SessionFactorySingleton;
+import entity.Comment;
 import entity.Twit;
 import entity.User;
 import org.hibernate.SessionFactory;
@@ -14,6 +15,7 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     private final UserRepositoryImpel userRepositoryImpel = new UserRepositoryImpel();
     private static final Utility utility = new Utility();
     private static final TwitServiceImpel twitServiceImpel = new TwitServiceImpel();
+    private final CommentServiceImpel commentServiceImpel = new CommentServiceImpel();
 
     @Override
     public User add(User userNull) {
@@ -83,5 +85,11 @@ public class UserServiceImpel extends GenericServiceImpel<User,Integer> implemen
     @Override
     public void showAllTwit(User user,Integer number){
         twitServiceImpel.showAllTwit(user,number);
+    }
+
+    @Override
+    public void updateComment(User user){
+        Comment comment = Comment.builder().user(user).build();
+        commentServiceImpel.update(comment);
     }
 }
