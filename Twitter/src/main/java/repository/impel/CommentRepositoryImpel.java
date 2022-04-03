@@ -27,4 +27,18 @@ public class CommentRepositoryImpel extends GenericRepositoryImpel<Comment,Integ
         return query.list();
     }
 
+    @Override
+    public List<Comment> findByUserId(Integer id){
+        var session = sessionFactory.getCurrentSession();
+        var query = session.createQuery("FROM Comment as c WHERE c.user.id = :user_id", Comment.class);
+        query.setParameter("user_id",id);
+        return query.list();
+    }
+
+    @Override
+    public Comment findById(Integer id) {
+        var session = sessionFactory.getCurrentSession();
+        return session.find(Comment.class,id);
+    }
+
 }
