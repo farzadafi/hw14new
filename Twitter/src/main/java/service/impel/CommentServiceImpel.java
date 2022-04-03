@@ -17,7 +17,7 @@ public class CommentServiceImpel extends GenericServiceImpel<Comment,Integer> im
     private final Scanner input = new Scanner(System.in);
     private final SessionFactory sessionFactory = SessionFactorySingleton.getInstance();
     private final CommentRepositoryImpel commentRepositoryImpel = new CommentRepositoryImpel();
-    private final Utility utility = new Utility();
+    private static final Utility utility = new Utility();
 
     @Override
     public Comment add(Comment comment) {
@@ -27,6 +27,23 @@ public class CommentServiceImpel extends GenericServiceImpel<Comment,Integer> im
         Comment comment1 = super.add(comment);
         System.out.println("Your comment added!");
         return comment1;
+    }
+
+    @Override
+    public void update(Comment comment) {
+        if(showComment(comment.getUser().getId()) == 0)
+            return;
+        System.out.print("Enter id for update:");
+        int id = utility.giveIntegerInput();
+        Comment comment1 = this.findById(id);
+        if(comment1 == null)
+            System.out.println("You enter a wrong Id");
+        else{
+            System.out.print("Enter new comment:");
+            String newStringComment = input.nextLine();
+            comment1.setComment(newStringComment);
+            super.update(comment1);
+        }
     }
 
     @Override
@@ -96,5 +113,46 @@ public class CommentServiceImpel extends GenericServiceImpel<Comment,Integer> im
         Comment newComment = Comment.builder().comment(newReply).user(user).parent(comment).build();
         super.add(newComment);
         System.out.println("Your reply added!");
+    }
+
+    public Integer showComment(Integer id) {
+        List<Comment> commentList = findByUserId(id);
+        if (commentList.size() == 0) {
+            System.out.println("You dont have any comment!");
+            return 0;
+        }
+        else {
+            for (Comment c : commentList
+            ) {
+                System.out.println("id:" + c.getId() +
+                                   " Comment:" + c.getComment() +
+                                   " Twit:" + c.getTwit().getTwit());
+            }
+        }
+        return 1;
+    }
+
+    public List<Comment> findByUserId(Integer id){
+        try (var session = sessionFactory.getCurrentSession()) {
+            session.getTransaction().begin();
+            try {
+                return commentRepositoryImpel.findByUserId(id);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    public Comment findById(int id){
+        try (var session = sessionFactory.getCurrentSession()) {
+            session.getTransaction().begin();
+            try {
+                return commentRepositoryImpel.findById(id);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return null;
+            }
+        }
     }
 }
